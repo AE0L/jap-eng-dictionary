@@ -90,50 +90,35 @@ class JapEngFrame(Frame):
         pass
 
     def _test(self):
-        for i in range(len(temp_data)):
+        for i in range(5):
             self._add_entry(temp_data[i], i)
 
     def _add_entry(self, entry, index):
-        kana  = entry.get('kana')
-        kanji = entry.get('kanji', '')
-        defs  = entry.get('definitions')
-
+        kana       = entry.get('kana')
+        romaji     = entry.get('romaji')
+        kanji      = entry.get('kanji')
+        defn       = entry.get('definition')
         entryFrame = Frame(self._result_cont.interior)
+
         entryFrame.grid(column=0, row=index, sticky=W, pady=10)
         entryFrame.columnconfigure(0, weight=0)
         entryFrame.columnconfigure(1, weight=1)
+
         defFrame   = Frame(entryFrame)
         defFrame.grid(column=0, row=1, columnspan=2, sticky=W, padx=10, pady=5)
+
         kanaLabel  = Label(entryFrame, text=kana, font='MS-Gothic 12 bold', fg='blue4')
         kanaLabel.grid(column=0, row=0)
 
-        if kanji != '':
-            kanjiLabel = Label(entryFrame, text=f'【 {kanji} 】', font='MS-Gothic 12 bold', fg='brown4')
-            kanjiLabel.grid(column=1, row=0, sticky=W)
+        romajiLabel = Label(entryFrame, text=romaji, font='MS-Gothic 10 bold')
+        romajiLabel.grid(column=1, row=0)
 
-        for i in range(len(defs)):
-            data = defs[i]
-            form = data.get('form', '')
-            definition = data.get('definition')
-            numLabel = Label(defFrame, text=f'{i+1}.', fg='steelblue3', font='Helvetica 10')
-            numLabel.grid(column=0, row=i, sticky=W)
+        kanjiLabel = Label(entryFrame, text=f'【 {kanji} 】', font='MS-Gothic 12 bold', fg='brown4')
+        kanjiLabel.grid(column=2, row=0)
 
-            if len(form) != 0:
-                text = f' ('
-                for j in range(len(form)):
-                    if j == len(form) - 1:
-                        text += form[j]
-                    else:
-                        text += f'{form[j]}, '
-                text += f') {definition}'
-            else:
-                text = f' {definition}'
-
-            defLabel  = Label(defFrame, text=text, font='Helvetica 10')
-            defLabel.grid(column=1, row=i, sticky=(W))
-
-        defFrame.columnconfigure(0, weight=0)
-        defFrame.columnconfigure(1, weight=0)
+        defLabel  = Label(defFrame, text=text, font='Helvetica 10')
+        defLabel.grid(column=0, row=0, sticky=(W))
+        
         self._result_cont.pack()
 
         pass
