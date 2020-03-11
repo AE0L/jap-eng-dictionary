@@ -29,12 +29,13 @@ class JapEngFrame(Frame):
                                 background='dimgray')
         search_input         = Entry(search_input_wrapper,
                                 textvariable=self._search_string,
+                                borderwidth=3,
                                 relief='flat',
-                                font='Helvetica 10')
+                                font='Helvetica 14')
         search_button        = Button(search_cont,
                                 command=self._search_dictionary,
                                 text='Search',
-                                font='Helvetica 8 bold',
+                                font='Helvetica 13 bold',
                                 activebackground='gray10',
                                 activeforeground='white')
 
@@ -54,6 +55,7 @@ class JapEngFrame(Frame):
 
 
     def _search_dictionary(self):
+        print(self._search_string.get())
         # TODO Orjan, Rap: tatawagin tong function pag pinindot ung search button
         # nasa 'self._search_string' na variable ung ni-type sa input box
 
