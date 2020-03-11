@@ -1,4 +1,4 @@
-temp_data = [
+dict_data = [
 	{
 		'kana':'ああ',
 		'romaji':'aa',
