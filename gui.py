@@ -58,12 +58,16 @@ class JapEngFrame(Frame):
         print(self._search_string.get())
         # TODO Orjan, Rap: tatawagin tong function pag pinindot ung search button
         # nasa 'self._search_string' na variable ung ni-type sa input box
+        i = 0
+        while i != 7830:
+            if self._search_string.get() in dict_data[i]['romaji']:
+                self._add_entry(dict_data[i], i)
+            i = i + 1
+        #self._test(25); # TEST FUNCTION LANG PALITAN NIYO NUMBER KUNG ILAN IDIDISPLAY
 
-        self._test(25); # TEST FUNCTION LANG PALITAN NIYO NUMBER KUNG ILAN IDIDISPLAY
-
-    def _test(self, num):
-        for i in range(num):
-            self._add_entry(dict_data[i], i)
+    #def _test(self, num):
+     #   for i in range(num):
+     #       self._add_entry(dict_data[i], i)
 
     def _add_entry(self, entry, index):
         kana       = entry.get('kana')
