@@ -56,12 +56,43 @@ class JapEngFrame(Frame):
 
     def _search_dictionary(self):
         self._clear_result()
+        search_string = self._search_string.get()
+        a = len(search_string)
+        b = 0
+        x = 0
+        y = 0
+        for i in range(len(dict_data)):
+            b = len(dict_data[i]['romaji'])
+            x = 0
+            for x in range(b):
+                y = 0
+                for y in range(a):
+                    try:
+                        if dict_data[i]['romaji'][x + y] != search_string[y]:
+                            break
+                    except:
+                        break
+                    y = y + 1
+                if y == a:
+                    self._add_entry(dict_data[i], i)
+                    
+        for i in range(len(dict_data)):
+            b = len(dict_data[i]['definition'])
+            x = 0
+            for x in range(b):
+                y = 0
+                for y in range(a):
+                    try:
+                        if dict_data[i]['definition'][x + y] != search_string[y]:
+                            break
+                    except:
+                        break
+                    y = y + 1
+                if y == a:
+                    self._add_entry(dict_data[i], i)
+    
 
-        i = 0
-        while i != 7830:
-            if self._search_string.get() in dict_data[i]['romaji']:
-                self._add_entry(dict_data[i], i)
-            i = i + 1
+    
 
     def _add_entry(self, entry, index):
         kana       = entry.get('kana')
