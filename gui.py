@@ -3,6 +3,36 @@ from tkinter.ttk import Style
 from jap_data import dict_data
 from scrollframe import VerticalScrolledFrame
 
+
+
+def square_root(number, number_iters = 500):
+    a = float(number)
+    for i in range(number_iters):
+        number = 0.5 * (number + a / number)
+    return number
+
+def shounenJumpuSearch (dict_data, search):
+    length = len(dict_data)
+    jump = int(square_root(length))
+    left, right = 0, 0
+    while length > left & search >= dict_data[left]:
+        right = min(length - 1, left + jump)
+        if dict_data[left] <= search and dict_data[right] >= search:
+            break
+        left += jump;
+    if left >= length or dict_data[left] > search:
+        return -1
+    right = min(length - 1, right)
+    i = left
+    while i <= right and dict_data[i] <= search:
+        if dict_data[i] == search:
+            return i
+        i += 1
+    return -1
+
+
+
+
 class JapEngFrame(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
