@@ -5,30 +5,7 @@ from scrollframe import VerticalScrolledFrame
 
 
 
-def square_root(number, number_iters = 500):
-    a = float(number)
-    for r in range(number_iters):
-        number = 0.5 * (number + a / number)
-    return number
 
-def shounenJumpuSearch (dict_data, search):
-    length = len(dict_data[i]['romaji'])
-    jump = int(square_root(length))
-    left, right = 0, 0
-    while length > left & search >= dict_data[left]:
-        right = min(length - 1, left + jump)
-        if dict_data[left] <=    search and dict_data[right] >= search:
-            break
-        left += jump;
-    if left >= length or dict_data[left] > search:
-        return -1
-    right = min(length - 1, right)
-    w = left
-    while w <= right and dict_data[w] <= search:
-        if dict_data[w] == search:
-            return w
-        w += 1
-    return -1
 
 
 
@@ -62,7 +39,7 @@ class JapEngFrame(Frame):
                                 relief='flat',
                                 font='Helvetica 14')
         search_button        = Button(search_cont,
-                                command=self._search_dictionary,
+                                command=self.shounenJumpuSearch,
                                 text='Search',
                                 font='Helvetica 13 bold',
                                 activebackground='gray10',
@@ -83,45 +60,73 @@ class JapEngFrame(Frame):
 
 
 
-    def _search_dictionary(self):
+    def square_root(number, number_iters = 500):
+        a = float(number)
+        for r in range(number_iters):
+            number = 0.5 * (number + a / number)
+        return number
+
+    def shounenJumpuSearch (dict_data):    
         self._clear_result()
         search_string = self._search_string.get()
-        a = len(search_string)
-        b = 0
-        x = 0
-        y = 0
-        for i in range(len(dict_data)):
-            b = len(dict_data[i]['romaji'])
+        def _search_dictionary(search,self1):
+          
+            a = len(search_string)
+            b = 0
             x = 0
-            for x in range(b):
-                y = 0
-                for y in range(a):
-                    try:
-                        if dict_data[i]['romaji'][x + y] != search_string[y]:
+            y = 0
+            for i in range(len(dict_data)):
+                b = len(dict_data[i]['romaji'])
+                x = 0
+                for x in range(b):
+                    y = 0
+                    for y in range(a):
+                        try:
+                            if dict_data[i]['romaji'][x + y] != search_string[y]:
+                                break
+                        except:
                             break
-                    except:
-                        break
-                    y = y + 1
-                if y == a:
-                    self._add_entry(dict_data[i], i)
-                    
-        for i in range(len(dict_data)):
-            b = len(dict_data[i]['definition'])
-            x = 0
-            for x in range(b):
-                y = 0
-                for y in range(a):
-                    try:
-                        if dict_data[i]['definition'][x + y] != search_string[y]:
-                            break
-                    except:
-                        break
-                    y = y + 1
-                if y == a:
-                    self._add_entry(dict_data[i], i)
-    
+                        y = y + 1
+                    if y == a:
+                        self1._add_entry(dict_data[i], i)
 
-    
+            for i in range(len(dict_data)):
+                b = len(dict_data[i]['definition'])
+                x = 0
+                for x in range(b):
+                    y = 0
+                    for y in range(a):
+                        try:
+                            if dict_data[i]['definition'][x + y] != search_string[y]:
+                                break
+                        except:
+                            break
+                            y = y + 1
+                    if y == a:
+                        self1._add_entry(dict_data[i], i)
+
+        length = len(dict_data[i]['romaji'])
+        jump = int(square_root(length))
+        left, right = 0, 0
+        while length > left & search >= dict_data[left]:
+            right = min(length - 1, left + jump)
+            if dict_data[left] <=    search and dict_data[right] >= search:
+                break
+            left += jump;
+        if left >= length or dict_data[left] > search:
+            return -1
+        right = min(length - 1, right)
+        w = left
+        while w <= right and dict_data[w] <= search:
+            if dict_data[w] == search:
+                return w
+            w += 1
+        return -1
+
+
+
+
+
 
     def _add_entry(self, entry, index):
         kana       = entry.get('kana')
