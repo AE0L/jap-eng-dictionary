@@ -3,12 +3,6 @@ from tkinter.ttk import Style
 from jap_data import dict_data
 from scrollframe import VerticalScrolledFrame
 
-
-
-
-
-
-
 class JapEngFrame(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
@@ -39,7 +33,7 @@ class JapEngFrame(Frame):
                                 relief='flat',
                                 font='Helvetica 14')
         search_button        = Button(search_cont,
-                                command=self.shounenJumpuSearch,
+                                command=self._search_dictionary,
                                 text='Search',
                                 font='Helvetica 13 bold',
                                 activebackground='gray10',
@@ -60,73 +54,79 @@ class JapEngFrame(Frame):
 
 
 
-    def square_root(number, number_iters = 500):
-        a = float(number)
-        for r in range(number_iters):
-            number = 0.5 * (number + a / number)
-        return number
-
-    def shounenJumpuSearch (dict_data):    
+    def _search_dictionary(self):
         self._clear_result()
         search_string = self._search_string.get()
-        def _search_dictionary(search,self1):
-          
-            a = len(search_string)
-            b = 0
-            x = 0
-            y = 0
-            for i in range(len(dict_data)):
-                b = len(dict_data[i]['romaji'])
-                x = 0
-                for x in range(b):
-                    y = 0
-                    for y in range(a):
-                        try:
-                            if dict_data[i]['romaji'][x + y] != search_string[y]:
-                                break
-                        except:
-                            break
-                        y = y + 1
-                    if y == a:
-                        self1._add_entry(dict_data[i], i)
-
-            for i in range(len(dict_data)):
-                b = len(dict_data[i]['definition'])
-                x = 0
-                for x in range(b):
-                    y = 0
-                    for y in range(a):
-                        try:
-                            if dict_data[i]['definition'][x + y] != search_string[y]:
-                                break
-                        except:
-                            break
-                            y = y + 1
-                    if y == a:
-                        self1._add_entry(dict_data[i], i)
-
-        length = len(dict_data[i]['romaji'])
-        jump = int(square_root(length))
-        left, right = 0, 0
-        while length > left & search >= dict_data[left]:
-            right = min(length - 1, left + jump)
-            if dict_data[left] <=    search and dict_data[right] >= search:
+        a = len(search_string)
+        b = 0
+        x = 0
+        char_asc = 97
+#        y = 0
+#        for i in range(len(dict_data)):
+#            b = len(dict_data[i]['romaji'])
+#            x = 0
+#            for x in range(b):
+#                y = 0
+#                for y in range(a):
+#                    try:
+#                       if dict_data[i]['romaji'][x + y] != search_string[y]:
+#                            break
+#                    except:
+#                        break
+#                    y = y + 1
+#                if y == a:
+#                    self._add_entry(dict_data[i], i)
+#                    
+#        for i in range(len(dict_data)):
+#            b = len(dict_data[i]['definition'])
+#            x = 0
+#            for x in range(b):
+#                y = 0
+#                for y in range(a):
+#                    try:
+#                        if dict_data[i]['definition'][x + y] != search_string[y]:
+#                            break
+#                    except:
+#                        break
+#                    y = y + 1
+#                if y == a:
+#                    self._add_entry(dict_data[i], i)
+        for i in range(1, 26, 3):
+            if char_asc > ord(search_string[0]):
+                if char_asc > 122:
+                    char_asc = 122
+                    break
+            else:
+                char_asc = char_asc + 3
+                if char_asc > 122:
+                    char_asc = 122
+                    
+        for i in range(1,7830,100):
+            if char_asc < ord(dict_data[i]['romaji'][0]):
                 break
-            left += jump;
-        if left >= length or dict_data[left] > search:
-            return -1
-        right = min(length - 1, right)
-        w = left
-        while w <= right and dict_data[w] <= search:
-            if dict_data[w] == search:
-                return w
-            w += 1
-        return -1
+                
+        char_asc = chr(char_asc - 4)
+        for i in range(i+1, 0, -1):
+            b = len(dict_data[i]['romaji'])
+            x = 0
+            for x in range(b):
+                y = 0
+                for y in range(a):
+                    try:
+                        if dict_data[i]['romaji'][x+y] != search_string[y]:
+                            break
+                    except:
+                        break
+                    y = y + 1
+                if y == a:
+                    self._add_entry(dict_data[i], i)
+                    break
+            if char_asc >= dict_data[i]['romaji'][0]:
+                break
 
+    
 
-
-
-
+    
 
     def _add_entry(self, entry, index):
         kana       = entry.get('kana')
